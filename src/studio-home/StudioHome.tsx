@@ -1,3 +1,5 @@
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import React, { useCallback } from 'react';
 import {
   Button,
@@ -11,7 +13,7 @@ import { Add as AddIcon, Error, ManageAccounts } from '@openedx/paragon/icons';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { getConfig } from '@edx/frontend-platform';
 import { StudioFooterSlot } from '@edx/frontend-component-footer';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 
 import { useWaffleFlags } from '@src/data/apiHooks';
 import Loading from '../generic/Loading';
@@ -155,6 +157,8 @@ const StudioHome = () => {
       return <VerifyEmailLayout />;
     }
     return (
+<PluginSlot id="org.mereka.authoring.studio_home_content.v1" pluginProps={{}}>
+{[<StudioDefaultFragment key="default_contents">
       <Layout
         lg={[{ span: 9 }, { span: 3 }]}
         md={[{ span: 9 }, { span: 3 }]}
@@ -181,12 +185,16 @@ const StudioHome = () => {
           <HomeSidebar />
         </Layout.Element>
       </Layout>
+</StudioDefaultFragment>]}
+</PluginSlot>
     );
   };
 
   return (
     <>
       <Header isHiddenMainMenu />
+<PluginSlot id="org.mereka.authoring.studio_home_shell.v1" pluginProps={{ LinkComponent: Link, hasAbilityToCreateNewCourse, isFailedLoadingPage, userIsActive, setShowNewCourseContainer, search: location.search, navigationKey: location.key }}>
+{[<StudioDefaultFragment key="default_contents">
       <Container size="xl" className="p-4 mt-3">
         <section className="mb-4">
           <article className="studio-home-sub-header">
@@ -200,7 +208,9 @@ const StudioHome = () => {
           {getMainBody()}
         </section>
       </Container>
-      <div className="alert-toast">
+
+</StudioDefaultFragment>]}
+</PluginSlot>      <div className="alert-toast">
         <InternetConnectionAlert
           isFailed={anyQueryIsFailed}
           isQueryPending={anyQueryIsPending}

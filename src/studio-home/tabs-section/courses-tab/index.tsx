@@ -1,3 +1,6 @@
+import { useQuery } from '@tanstack/react-query';
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -77,6 +80,8 @@ const CardList = ({
       {hasCourses ?
         (
           <>
+<PluginSlot id="org.mereka.authoring.studio_course_list.v1" pluginProps={{ courses: courses, inSelectMode, useQuery }}>
+{[<StudioDefaultFragment key="default_contents">
             {courses.map(
               ({
                 courseKey,
@@ -109,6 +114,8 @@ const CardList = ({
                 />
               ),
             )}
+</StudioDefaultFragment>]}
+</PluginSlot>
 
             {numPages > 1 && (
               <Pagination
@@ -228,8 +235,12 @@ export const CoursesList: React.FC<Props> = ({
         <div className="courses-tab-container">
           {isShowProcessing && <ProcessingCourses />}
           <div className="d-flex flex-row align-items-center justify-content-between my-4">
+<PluginSlot id="org.mereka.authoring.studio_course_filters.v1" pluginProps={{}}>
+{[<StudioDefaultFragment key="default_contents">
             <CoursesFilters dispatch={dispatch} locationValue={locationValue} isLoading={isLoading} />
-            <p data-testid="pagination-info" className="my-0">
+
+</StudioDefaultFragment>]}
+</PluginSlot>            <p data-testid="pagination-info" className="my-0">
               {intl.formatMessage(messages.coursesPaginationInfo, {
                 length: courses?.length,
                 total: coursesCount,

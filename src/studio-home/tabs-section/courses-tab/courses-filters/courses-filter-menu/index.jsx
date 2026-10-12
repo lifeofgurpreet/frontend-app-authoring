@@ -1,3 +1,5 @@
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
@@ -29,6 +31,8 @@ const CoursesFilterMenu = ({
   }, [cleanFilters]);
 
   return (
+<PluginSlot id="org.mereka.authoring.studio_course_filter_menu.v1" pluginProps={{}}>
+{[<StudioDefaultFragment key="default_contents">
     <Dropdown id={`dropdown-toggle-${idProp}`}>
       <Dropdown.Toggle
         alt="dropdown-toggle-menu-items"
@@ -51,6 +55,8 @@ const CoursesFilterMenu = ({
         ))}
       </Dropdown.Menu>
     </Dropdown>
+</StudioDefaultFragment>]}
+</PluginSlot>
   );
 };
 

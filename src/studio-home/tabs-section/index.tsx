@@ -1,3 +1,5 @@
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import { useMemo, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -147,6 +149,8 @@ const TabsSection = ({
   };
 
   return (
+<PluginSlot id="org.mereka.authoring.studio_home_tabs.v1" pluginProps={{}}>
+{[<StudioDefaultFragment key="default_contents">
     <Tabs
       className="studio-home-tabs"
       variant="tabs"
@@ -155,6 +159,8 @@ const TabsSection = ({
     >
       {visibleTabs}
     </Tabs>
+</StudioDefaultFragment>]}
+</PluginSlot>
   );
 };
 

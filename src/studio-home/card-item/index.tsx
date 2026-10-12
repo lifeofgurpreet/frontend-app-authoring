@@ -1,3 +1,5 @@
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import React, {
   ReactElement,
   useCallback,
@@ -288,6 +290,8 @@ export const CardItem: React.FC<Props> = ({
 
   return (
     <div ref={cardRef} className="w-100">
+<PluginSlot id="org.mereka.authoring.studio_course_card.v1" pluginProps={{ courseKey, title, destinationUrl, readOnlyItem, selectMode, isLibraries, org, number, run, LinkComponent: Link }}>
+{[<StudioDefaultFragment key="default_contents">
       <Card
         onClick={onClick}
         className={classNames('card-item', {
@@ -330,6 +334,8 @@ export const CardItem: React.FC<Props> = ({
           </Card.Status>
         )}
       </Card>
+</StudioDefaultFragment>]}
+</PluginSlot>
     </div>
   );
 };

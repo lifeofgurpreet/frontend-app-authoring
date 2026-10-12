@@ -1,3 +1,5 @@
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { SearchField } from '@openedx/paragon';
@@ -121,6 +123,8 @@ const CoursesFilters = ({
   );
 
   return (
+<PluginSlot id="org.mereka.authoring.studio_course_filter_controls.v1" pluginProps={{}}>
+{[<StudioDefaultFragment key="default_contents">
     <div className="d-flex">
       <div className="d-flex flex-row">
         <SearchField
@@ -142,6 +146,8 @@ const CoursesFilters = ({
       <CoursesOrderFilterMenu onItemMenuSelected={handleMenuFilterItemSelected} />
       <CourseImportFilter />
     </div>
+</StudioDefaultFragment>]}
+</PluginSlot>
   );
 };
 
