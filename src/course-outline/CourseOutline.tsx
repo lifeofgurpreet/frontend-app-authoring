@@ -284,6 +284,8 @@ const CourseOutline = () => {
 </PluginSlot>
                   <section>
                     {!errors?.outlineIndexApi && (
+<PluginSlot id="org.mereka.authoring.outline_list.v1" pluginProps={{}}>
+{[<StudioDefaultFragment key="default_contents">
                       <div className="pt-4">
                         {sections.length ?
                           (
@@ -400,6 +402,8 @@ const CourseOutline = () => {
                             </EmptyPlaceholder>
                           )}
                       </div>
+</StudioDefaultFragment>]}
+</PluginSlot>
                     )}
                   </section>
                 </div>
