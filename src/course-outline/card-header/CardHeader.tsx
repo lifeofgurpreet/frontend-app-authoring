@@ -1,3 +1,5 @@
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import {
   ReactNode,
   useCallback,
@@ -35,6 +37,7 @@ import { ITEM_BADGE_STATUS } from '../constants';
 import { scrollToElement } from '../utils';
 import CardStatus from './CardStatus';
 import messages from './messages';
+import TitleButton from './TitleButton';
 import { useOutlineSidebarContext } from '../outline-sidebar/OutlineSidebarContext';
 
 interface CardHeaderProps {
@@ -187,6 +190,8 @@ const CardHeader = ({
         `SortableItem` component handles that for the whole `{Container}Card`.
         This `onClick` allows the user to select the Card by clicking on white areas of this component. */
       }
+<PluginSlot id="org.mereka.authoring.outline_card_header.v1" pluginProps={{ namePrefix, titleComponent, TitleButtonComponent: TitleButton, titleTooltipMessage: intl.formatMessage(messages.expandTooltip) }}>
+{[<StudioDefaultFragment key="default_contents">
       <div // eslint-disable-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
         className="item-card-header"
         data-testid={`${namePrefix}-card-header`}
@@ -350,6 +355,8 @@ const CardHeader = ({
           </Dropdown>
         </div>
       </div>
+</StudioDefaultFragment>]}
+</PluginSlot>
     </>
   );
 };

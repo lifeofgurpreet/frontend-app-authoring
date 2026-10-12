@@ -1,3 +1,5 @@
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import React from 'react';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { useSortable } from '@dnd-kit/sortable';
@@ -68,6 +70,8 @@ const SortableItem = ({
   };
 
   return (
+<PluginSlot id="org.mereka.authoring.outline_row.v1" pluginProps={{ level: data.category }}>
+{[<StudioDefaultFragment key="default_contents">
     <Row
       ref={setNodeRef}
       tabIndex={onClick ? 0 : -1}
@@ -102,6 +106,8 @@ const SortableItem = ({
         </button>
       )}
     </Row>
+</StudioDefaultFragment>]}
+</PluginSlot>
   );
 };
 
