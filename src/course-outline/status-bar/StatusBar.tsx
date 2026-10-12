@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import moment, { Moment } from 'moment/moment';
 import {
   FormattedDate,
@@ -30,26 +31,26 @@ import { useHelpUrls } from '@src/help-urls/hooks';
 import messages from './messages';
 import { NotificationStatusIcon } from './NotificationStatusIcon';
 
-const CourseBadge = ({ startDate, endDate }: { startDate: Moment; endDate: Moment; }) => {
+const CourseBadge = ({ startDate, endDate, className }: { startDate: Moment; endDate: Moment; className?: string; }) => {
   const now = moment().utc();
   switch (true) {
     case !startDate.isValid():
       return null;
     case now.isBetween(startDate, endDate.isValid() ? endDate : undefined, undefined, '[]'):
       return (
-        <Badge className="px-3 py-2" variant="success">
+        <Badge className={classNames('px-3 py-2', className)} variant="success">
           <FormattedMessage {...messages.activeBadgeText} />
         </Badge>
       );
     case now.isBefore(startDate):
       return (
-        <Badge className="px-3 py-2" variant="info">
+        <Badge className={classNames('px-3 py-2', className)} variant="info">
           <FormattedMessage {...messages.upcomingBadgeText} />
         </Badge>
       );
     case endDate.isValid() && endDate.isBefore(now):
       return (
-        <Badge className="px-3 py-2 bg-gray-500" variant="secondary">
+        <Badge className={classNames('px-3 py-2 bg-gray-500', className)} variant="secondary">
           <FormattedMessage {...messages.archivedBadgeText} />
         </Badge>
       );
@@ -107,17 +108,19 @@ const CourseDates = ({
   endDate,
   startDateRaw,
   datesLink,
+  className,
 }: {
   startDate: Moment;
   endDate: Moment;
   startDateRaw: string;
   datesLink: string;
+  className?: string;
 }) => {
   if (!startDate.isValid()) {
     // Returns string contained in startDate, i.e. `Set Date`
     return (
       <Link
-        className="small"
+        className={classNames('small', className)}
         to={datesLink}
       >
         <Stack direction="horizontal" gap={2}>
@@ -130,7 +133,7 @@ const CourseDates = ({
 
   return (
     <Link
-      className="small text-gray-700"
+      className={classNames('small text-gray-700', className)}
       to={datesLink}
     >
       <Stack direction="horizontal" gap={2}>
@@ -157,9 +160,10 @@ const CourseDates = ({
   );
 };
 
-const Checklists = ({ courseId, checklist }: {
+const Checklists = ({ courseId, checklist, className }: {
   courseId: string;
   checklist: ChecklistType;
+  className?: string;
 }) => {
   const {
     completedCourseLaunchChecks,
@@ -178,7 +182,7 @@ const Checklists = ({ courseId, checklist }: {
   const checkListTitle = `${completed}/${total}`;
   return (
     <Link
-      className="small text-primary-500 d-flex"
+      className={classNames('small text-primary-500 d-flex', className)}
       to={`/course/${courseId}/checklists`}
     >
       <Icon src={ChecklistRtl} size="md" className="mr-2" />
@@ -187,21 +191,22 @@ const Checklists = ({ courseId, checklist }: {
   );
 };
 
-const Highlights = ({ highlightsEnabledForMessaging, openEnableHighlightsModal }: {
+const Highlights = ({ highlightsEnabledForMessaging, openEnableHighlightsModal, className }: {
   highlightsEnabledForMessaging: boolean;
   openEnableHighlightsModal: () => void;
+  className?: string;
 }) => {
   const intl = useIntl();
 
   if (highlightsEnabledForMessaging) {
     return (
-      <span data-testid="highlights-enabled-span" className="small">
+      <span data-testid="highlights-enabled-span" className={classNames('small', className)}>
         {intl.formatMessage(messages.highlightEmailsEnabled)}
       </span>
     );
   } else {
     return (
-      <Button data-testid="highlights-enable-button" size="sm" onClick={openEnableHighlightsModal}>
+      <Button data-testid="highlights-enable-button" className={className} size="sm" onClick={openEnableHighlightsModal}>
         {intl.formatMessage(messages.highlightEmailsButton)}
       </Button>
     );
@@ -253,16 +258,21 @@ const VideoSharingDropdown = ({ handleVideoSharingOptionChange, videoSharingOpti
   );
 };
 
+export type StatusBarItemClassNames = Partial<Record<'courseBadge' | 'courseDates' | 'checklists' | 'highlights', string>>;
+
 export interface StatusBarProps {
   courseId: string;
   isLoading: boolean;
   statusBarData: CourseOutlineStatusBar;
+  /** Optional classes on native item roots; empty-state and action ownership stay native. */
+  itemClassNames?: StatusBarItemClassNames;
   openEnableHighlightsModal: () => void;
   handleVideoSharingOptionChange: (value: string) => void;
 }
 
 export const StatusBar = ({
   statusBarData,
+  itemClassNames = {},
   isLoading,
   courseId,
   openEnableHighlightsModal,
@@ -286,19 +296,21 @@ export const StatusBar = ({
 
   return (
     <Stack direction="horizontal" gap={4}>
-      <CourseBadge startDate={courseReleaseDateObj} endDate={endDateObj} />
+      <CourseBadge startDate={courseReleaseDateObj} endDate={endDateObj} className={itemClassNames.courseBadge} />
       <UnpublishedBadgeStatus courseId={courseId} />
       <CourseDates
         startDate={courseReleaseDateObj}
         endDate={endDateObj}
         startDateRaw={courseReleaseDate}
         datesLink={`/course/${courseId}/settings/details/#schedule`}
+        className={itemClassNames.courseDates}
       />
-      <Checklists courseId={courseId} checklist={checklist} />
+      <Checklists courseId={courseId} checklist={checklist} className={itemClassNames.checklists} />
       <LibraryUpdates courseId={courseId} />
       <Highlights
         highlightsEnabledForMessaging={highlightsEnabledForMessaging}
         openEnableHighlightsModal={openEnableHighlightsModal}
+        className={itemClassNames.highlights}
       />
       {videoSharingEnabled && (
         <VideoSharingDropdown
