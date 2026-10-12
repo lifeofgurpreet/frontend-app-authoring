@@ -1,3 +1,5 @@
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import {
   Button,
@@ -49,6 +51,8 @@ const HeaderActions = ({
   };
 
   return (
+<PluginSlot id="org.mereka.authoring.outline_header_controls.v1" pluginProps={{}}>
+{[<StudioDefaultFragment key="default_contents">
     <Stack direction="horizontal" gap={3}>
       <OverlayTrigger
         placement="bottom"
@@ -124,6 +128,8 @@ const HeaderActions = ({
         </Button>
       </OverlayTrigger>
     </Stack>
+</StudioDefaultFragment>]}
+</PluginSlot>
   );
 };
 

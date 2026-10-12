@@ -1,4 +1,12 @@
-import { useState, useEffect } from 'react';
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
+import { useState, useEffect } from 'react';import { useQuery } from '@tanstack/react-query';
+import { Link as OutlineCourseLink } from 'react-router-dom';
+import { useCourseDetails } from '@src/course-outline/data/apiHooks';
+import { ContentTagsDrawerSheet } from '@src/content-tags-drawer';
+import { getContentTaxonomyTagsCount } from '@src/content-tags-drawer/data/api';
+import { contentTagsQueryKeys } from '@src/content-tags-drawer/data/apiHooks';
+
 import { useIntl } from '@edx/frontend-platform/i18n';
 import {
   Container,
@@ -222,6 +230,8 @@ const CourseOutline = () => {
               ) :
               null}
           </TransitionReplace>
+<PluginSlot id="org.mereka.authoring.outline_header.v1" pluginProps={{ courseId, courseName, courseMetadata: { useCourseDetails, useQuery, getContentTaxonomyTagsCount, contentTagsQueryKeys, ContentTagsDrawerSheet, LinkComponent: OutlineCourseLink }, isSectionsExpanded, hasSections: Boolean(sections.length), headerNavigationsActions, expandLabel: intl.formatMessage(isSectionsExpanded ? headerMessages.collapseAllButton : headerMessages.expandAllButton) }}>
+{[<StudioDefaultFragment key="default_contents">
           <SubHeader
             title={courseName}
             subtitle={intl.formatMessage(messages.headingSubtitle)}
@@ -246,11 +256,15 @@ const CourseOutline = () => {
             openEnableHighlightsModal={openEnableHighlightsModal}
             handleVideoSharingOptionChange={handleVideoSharingOptionChange}
           />
-          <hr className="mt-4 mb-0 w-100 text-light-400" />
+
+</StudioDefaultFragment>]}
+</PluginSlot>          <hr className="mt-4 mb-0 w-100 text-light-400" />
           <div className="d-flex align-items-start">
             <div className="flex-fill">
               <article>
                 <div>
+<PluginSlot id="org.mereka.authoring.outline_expand.v1" pluginProps={{}}>
+{[<StudioDefaultFragment key="default_contents">
                   <ActionRow className="mt-3">
                     {Boolean(sections.length) && (
                       <Button
@@ -266,6 +280,8 @@ const CourseOutline = () => {
                       </Button>
                     )}
                   </ActionRow>
+</StudioDefaultFragment>]}
+</PluginSlot>
                   <section>
                     {!errors?.outlineIndexApi && (
                       <div className="pt-4">
