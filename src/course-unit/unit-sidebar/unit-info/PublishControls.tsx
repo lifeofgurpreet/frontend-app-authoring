@@ -1,3 +1,5 @@
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import { useSelector } from 'react-redux';
 import { Icon, Stack, useToggle } from '@openedx/paragon';
 import { InfoOutline as InfoOutlineIcon, Person } from '@openedx/paragon/icons';
@@ -81,6 +83,8 @@ const PublishControls = ({
   };
 
   return (
+<PluginSlot id="org.mereka.authoring.unit_publication_frame.v1" pluginProps={{ intl, unitData, releaseLabel, ReleaseInfoComponent, UnitVisibilityInfo, openVisibleModal, visibleToStaffOnly }}>
+{[<StudioDefaultFragment key="default_contents">
     <div className={`course-unit-publish-controls border p-3 ${publishCardClass}`}>
       <div className="text-primary-700 mb-4">
         <SidebarHeader
@@ -180,6 +184,8 @@ const PublishControls = ({
         icon={InfoOutlineIcon}
       />
     </div>
+</StudioDefaultFragment>]}
+</PluginSlot>
   );
 };
 

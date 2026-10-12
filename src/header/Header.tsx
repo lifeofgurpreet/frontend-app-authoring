@@ -1,4 +1,6 @@
-import { StudioHeader } from '@edx/frontend-component-header';
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
+import SiteHeader, { StudioHeader } from '@edx/frontend-component-header';
 import { getConfig } from '@edx/frontend-platform';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import { type Container, useToggle } from '@openedx/paragon';
@@ -98,6 +100,8 @@ const Header = ({
 
   return (
     <>
+<PluginSlot id="org.mereka.authoring.studio_context.v1" pluginProps={{ SiteHeaderComponent: SiteHeader, contextId, isLibrary, isHiddenMainMenu, mainMenuDropdowns, org, number, title, outlineLink: getOutlineLink(), searchButtonAction: meiliSearchEnabled ? openSearchModal : undefined }}>
+{[<StudioDefaultFragment key="default_contents">
       <StudioHeader
         org={org}
         number={number}
@@ -109,7 +113,9 @@ const Header = ({
         containerProps={containerProps}
         isNewHomePage={waffleFlags.useNewHomePage}
       />
-      {meiliSearchEnabled && (
+
+</StudioDefaultFragment>]}
+</PluginSlot>      {meiliSearchEnabled && (
         <SearchModal
           isOpen={isShowSearchModalOpen}
           courseId={isLibrary ? undefined : contextId}

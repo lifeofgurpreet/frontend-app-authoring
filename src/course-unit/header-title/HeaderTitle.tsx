@@ -1,3 +1,5 @@
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -97,12 +99,16 @@ const HeaderTitle = ({
           </Form.Group>
         ) :
         unitTitle}
+<PluginSlot id="org.mereka.authoring.unit_rename_control.v1" pluginProps={{}}>
+{[<StudioDefaultFragment key="default_contents">
       <IconButton
         alt={intl.formatMessage(messages.altButtonEdit)}
         className="ml-1 flex-shrink-0 edit-button"
         iconAs={EditIcon}
         onClick={handleTitleEdit}
       />
+</StudioDefaultFragment>]}
+</PluginSlot>
       {!isUnitPageNewDesignEnabled() && (
         <>
           <IconButton

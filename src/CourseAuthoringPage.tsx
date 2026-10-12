@@ -1,8 +1,10 @@
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
-  useLocation,
+  useLocation, Link,
 } from 'react-router-dom';
 import { StudioFooterSlot } from '@edx/frontend-component-footer';
 import Header from './header';
@@ -42,6 +44,8 @@ const CourseAuthoringPage = ({ children }: Props) => {
       we shouldn't have the header and footer on these pages.
       This functionality will be removed in TNL-9591 */
       }
+<PluginSlot id="org.mereka.authoring.studio_shell.v1" pluginProps={{ LinkComponent: Link, courseId, pathname, isEditor }}>
+{[<StudioDefaultFragment key="default_contents">
       {inProgress ?
         !isEditor && <Loading />
         : (!isEditor && (
@@ -56,7 +60,9 @@ const CourseAuthoringPage = ({ children }: Props) => {
           />
         ))}
       {children}
-      {!inProgress && !isEditor && <StudioFooterSlot />}
+
+</StudioDefaultFragment>]}
+</PluginSlot>      {!inProgress && !isEditor && <StudioFooterSlot />}
     </div>
   );
 };

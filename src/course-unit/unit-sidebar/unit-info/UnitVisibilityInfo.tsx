@@ -17,6 +17,7 @@ import messages from './messages';
 import { useUnitSidebarContext } from '../UnitSidebarContext';
 
 interface UnitVisibilityInfoProps {
+  heading?: string;
   openVisibleModal: () => void;
   visibleToStaffOnly: boolean;
   userPartitionInfo?: {
@@ -148,13 +149,14 @@ const UnitVisibilityInfoContent = ({
 };
 
 const UnitVisibilityInfo = ({
+  heading,
   openVisibleModal,
   visibleToStaffOnly,
   userPartitionInfo,
 }: UnitVisibilityInfoProps) => (
   <>
     <span className="heading-label">
-      <FormattedMessage {...messages.visibilityVisibleToTitle} />
+      {heading ?? <FormattedMessage {...messages.visibilityVisibleToTitle} />}
     </span>
     {isUnitPageNewDesignEnabled() ?
       (

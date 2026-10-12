@@ -1,3 +1,5 @@
+import { Fragment as StudioDefaultFragment } from 'react';
+import { PluginSlot } from '@openedx/frontend-plugin-framework';
 import { useIntl } from '@edx/frontend-platform/i18n';
 import {
   Button,
@@ -79,6 +81,8 @@ const HeaderNavigations = ({
               )}
             </>
           )}
+<PluginSlot id="org.mereka.authoring.unit_preview_controls.v1" pluginProps={{}}>
+{[<StudioDefaultFragment key="default_contents">
           <ButtonGroup>
             <Button
               variant="outline-primary"
@@ -96,6 +100,8 @@ const HeaderNavigations = ({
               {intl.formatMessage(messages.viewLiveButton)}
             </Button>
           </ButtonGroup>
+</StudioDefaultFragment>]}
+</PluginSlot>
         </Stack>
       )}
       {
